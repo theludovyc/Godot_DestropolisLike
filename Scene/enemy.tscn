@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://suscymkvhd2b"]
+[gd_scene load_steps=6 format=3 uid="uid://suscymkvhd2b"]
 
 [ext_resource type="Script" path="res://Script/Enemy.gd" id="1_udrt6"]
 [ext_resource type="Material" uid="uid://b8515bv8sduft" path="res://Art/enemy_mat.tres" id="2_tigft"]
+[ext_resource type="Shape3D" uid="uid://ps4phb7ffd64" path="res://Art/box_shape.tres" id="3_cxe2s"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nmto5"]
 material = ExtResource("2_tigft")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gc5gv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_i3f65"]
+height = 1.0
 
 [node name="Enemy" type="CharacterBody3D"]
 axis_lock_angular_x = true
@@ -17,11 +19,18 @@ script = ExtResource("1_udrt6")
 mesh = SubResource("BoxMesh_nmto5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_gc5gv")
+shape = SubResource("CylinderShape3D_i3f65")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 radius = 0.8
 debug_enabled = true
 
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = ExtResource("3_cxe2s")
+
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_velocity_computed"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

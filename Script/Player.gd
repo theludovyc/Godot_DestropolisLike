@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @export var camera:Camera3D
 
+var bullet_scene = preload("res://Scene/bullet.tscn")
+
 const SPEED = 8.0
 
 func _physics_process(delta):
@@ -19,3 +21,13 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	look_at(camera.mousePos3D)
+	
+func _process(delta):
+	if Input.is_action_just_pressed("Shoot"):
+		var bullet = bullet_scene.instantiate()
+		
+		bullet.position = position
+		bullet.rotation = rotation
+		
+		get_parent().add_child(bullet)
+	pass

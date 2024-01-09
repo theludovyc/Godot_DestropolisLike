@@ -13,7 +13,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	look_at(player.position)
+	look_at(Vector3(player.position.x, position.y, player.position.z))
 	pass
 
 func _physics_process(delta):
@@ -24,3 +24,9 @@ func _physics_process(delta):
 func _on_navigation_velocity_computed(safe_velocity):
 	velocity = safe_velocity
 	move_and_slide()
+
+
+func _on_area_3d_area_entered(area):
+	if area is Bullet:
+		area.queue_free()
+		queue_free()

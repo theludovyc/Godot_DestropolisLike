@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3phj6t0ikrgg"]
+
+[ext_resource type="Script" path="res://Script/Bullet.gd" id="1_gbgke"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yhpce"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="Bullet" type="Area3D"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_gbgke")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_yhpce")
