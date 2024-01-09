@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgwykw0neyf6p"]
+
+[ext_resource type="Script" path="res://Script/Camera3D.gd" id="1_l6his"]
+[ext_resource type="PackedScene" uid="uid://cgtuwwjrvt0fw" path="res://Scene/player.tscn" id="2_t26dg"]
+[ext_resource type="PackedScene" uid="uid://suscymkvhd2b" path="res://Scene/enemy.tscn" id="3_m31p2"]
+
+[sub_resource type="Environment" id="Environment_tbs5v"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_pddw6"]
+vertices = PackedVector3Array(-13.6421, 0.5, -0.142136, -0.142136, 0.5, 13.6079, 13.6079, 0.5, 0.107864, 0.107864, 0.5, -13.6421)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_048vg"]
+albedo_color = Color(0.678431, 0.678431, 0.678431, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a3cj1"]
+material = SubResource("StandardMaterial3D_048vg")
+size = Vector2(20, 20)
+
+[node name="Game" type="Node"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 13.292, 13.254)
+projection = 1
+current = true
+size = 20.82
+script = ExtResource("1_l6his")
+
+[node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_t26dg")]
+camera = NodePath("../Camera3D")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.793338, -0.143008, 0.591746, -0.221993, 0.837131, 0.49993, -0.566864, -0.527977, 0.632381, 0, 0, 0)
+shadow_enabled = true
+sky_mode = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tbs5v")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_pddw6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("PlaneMesh_a3cj1")
+skeleton = NodePath("../..")
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_m31p2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.87019, 0.5, 0)
+player = NodePath("../Player")
+
+[node name="Enemy2" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_m31p2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.10282, 0.5, 0.833215)
+player = NodePath("../Player")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://suscymkvhd2b"]
+
+[ext_resource type="Script" path="res://Script/Enemy.gd" id="1_udrt6"]
+[ext_resource type="Material" uid="uid://b8515bv8sduft" path="res://Art/enemy_mat.tres" id="2_tigft"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nmto5"]
+material = ExtResource("2_tigft")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gc5gv"]
+
+[node name="Enemy" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+script = ExtResource("1_udrt6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_nmto5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_gc5gv")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 0.8
+debug_enabled = true
+
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_velocity_computed"]
